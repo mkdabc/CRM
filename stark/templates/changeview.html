@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block con %}
+    <h1>修改信息</h1>
+    {% include 'form_info.html' %}
+{% endblock %}
+
+
+{% block js %}
+    <script>
+        function pop_response(pk, text, id) {
+            var $option = $('<option>');
+            $option.html(text);
+            $option.val(pk);
+            $option.attr('selected', 'selected');
+            $('#' + id).append($option)
+        }
+    </script>
+{% endblock %}

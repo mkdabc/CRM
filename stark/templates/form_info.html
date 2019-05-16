@@ -1,0 +1,44 @@
+<style>
+    input, select {
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <form action="" method="post" class="col-md-6 col-md-offset-3" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+                <div style="position: relative">
+                    <label for="">{{ field.label }}</label>
+                    {{ field }} <span style="color: red" class="pull-right">{{ field.errors.0 }}</span>
+                    {% if field.is_pop %}
+                        <a onclick="pop('{{ field.url }}')" style="position: absolute;right: -30px;top: 20px;text-decoration: none;"><span style="font-size: 32px">+</span></a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button class="btn btn-info pull-right">提交</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function pop(url) {
+        window.open(url,'','width=800,height=500,top=100,left=400')
+    }
+</script>

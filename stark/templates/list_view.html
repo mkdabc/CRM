@@ -1,0 +1,112 @@
+
+{% extends 'base.html' %}
+
+{% block con %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-2">
+            <div class="page-header bg-primary">
+                <h3>数据展示</h3>
+            </div>
+           {#        搜索#}
+            <div>
+                {% if show_list.config_obj.search_fields %}
+                    <form action="" method="get" class="navbar-form">
+                        <div class="form-group pull-right">
+                            <input type="text" class="form-control" placeholder="Search" name="search"
+                                   value="{{ show_list.val }}">
+                            <button type="submit" class="btn btn-default">搜索</button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+
+            {#        actions#}
+            <form class="form-inline " method="post" action="">
+                {% csrf_token %}
+                <div class="col-xs-8">
+                         <label>Action:</label>
+                    <select name="action" class="form-control" style="display: inline-block;width: 300px">
+                        <option value="" selected="">---------</option>
+                        {% for action in actions %}
+                            <option value="{{ action.name }}">{{ action.text }}</option>
+                        {% endfor %}
+                    </select>
+{#                    <button type="submit" class="btn btn-default" id="btn">Go</button>#}
+                </div>
+{#                数据部分#}
+                <table class="table table-hover">
+                    <div style="margin-top: 20px" class="col-xs-10">
+                        <a href="add/" class="btn btn-info">添加数据</a>
+                    </div>
+
+                    <thead>
+                    <tr>
+                        {% for header in header_list %}
+                            <th>{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for body in body_list %}
+                        <tr>
+                            {% for item in body %}
+                                <td>{{ item }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="clearfix"><input type="submit" class="btn btn-primary pull-right" value="保存"></div>
+
+            </form>
+            <div class="pull-right">
+            {% load paging %}
+            {% custom page_obj %}
+            </div>
+        </div>
+
+
+        </div>
+
+{#        filter#}
+        <div class="col-md-2">
+            <table class="table table-hover">
+                {% if filter_list %}
+                    <div class="page-header bg-primary">
+                        <h3>filter</h3>
+                    </div>
+                    {% for filter,urls in filter_list.items %}
+                    <thead>
+                        <td>
+                            By {{ filter }}
+                        </td>
+                    </thead>
+                    <tbody>
+                    {% for url in urls %}
+                        <tr>
+                            {{ url |safe}}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                {% endfor %}
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script>
+    $('#choice').click(function () {
+        if ($(this).prop('checked')){
+            $('.choice_item').prop('checked',true)
+        }else {
+            $('.choice_item').prop('checked',false)
+        }
+    })
+</script>
+{% endblock %}
+
